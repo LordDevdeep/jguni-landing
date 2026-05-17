@@ -8,13 +8,14 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "JG University — Shape Your Future",
+  title: "JG University | Admissions, Programs & Campus Life",
   description:
-    "A premier institution blending innovation and excellence. Discover AI, Design, Cybersecurity, Aviation and more programs at JG University.",
-  keywords: ["university", "education", "AI", "technology", "programs", "campus"],
+    "Explore JG University programs, admissions, campus life, placements, and student support.",
+  keywords: ["university", "education", "admissions", "programs", "campus"],
   openGraph: {
-    title: "JG University — Shape Your Future",
-    description: "Premier institution blending innovation and excellence.",
+    title: "JG University",
+    description:
+      "Admissions, programs, campus life, and career support at JG University.",
     type: "website",
   },
 };
@@ -25,12 +26,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
       </head>
-      <body className="bg-[#020617] text-slate-100 antialiased overflow-x-hidden">
+      <body className="bg-[#f8f7f3] text-slate-900 antialiased overflow-x-hidden">
         {children}
       </body>
     </html>

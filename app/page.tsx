@@ -5,6 +5,7 @@ import Navbar from "@/components/sections/Navbar";
 import Hero from "@/components/sections/Hero";
 
 const Partners = lazy(() => import("@/components/sections/Partners"));
+const About = lazy(() => import("@/components/sections/About"));
 const Programs = lazy(() => import("@/components/sections/Programs"));
 const WhyChooseUs = lazy(() => import("@/components/sections/WhyChooseUs"));
 const CampusExperience = lazy(() => import("@/components/sections/CampusExperience"));
@@ -18,27 +19,16 @@ const LoadingFallback = () => <div className="h-64" />;
 
 export default function Home() {
   return (
-    <main className="relative overflow-x-hidden">
-      {/* Global background */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px]" />
-        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-violet-600/8 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-600/8 rounded-full blur-[100px]" />
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(99,102,241,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.3) 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
-          }}
-        />
-      </div>
-
-      <div className="relative z-10">
+    <main className="relative overflow-x-hidden bg-[#f8f7f3]">
+      <div className="relative">
         <Navbar />
         <Hero />
         
         <Suspense fallback={<LoadingFallback />}>
           <Partners />
+        </Suspense>
+        <Suspense fallback={<LoadingFallback />}>
+          <About />
         </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <Programs />

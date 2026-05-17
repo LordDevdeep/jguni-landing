@@ -1,51 +1,79 @@
 import Link from "next/link";
+import { ArrowLeft, ArrowRight, MapPin, Play } from "lucide-react";
+import { campusImages } from "@/data";
 
 export default function CampusTourPage() {
   return (
-    <main className="min-h-screen bg-[#020617] text-slate-100">
-      <div className="max-w-5xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
-        <div className="mb-12">
-          <p className="text-indigo-400 uppercase tracking-widest text-sm font-semibold mb-4">
-            Campus Experience
-          </p>
-          <h1 className="text-5xl sm:text-6xl font-bold tracking-tight mb-6">
-            Campus Tour
-          </h1>
-          <p className="text-slate-400 text-lg leading-relaxed max-w-3xl">
-            Explore our vibrant campus, modern classrooms, research labs, and student life offerings with a guided virtual tour.
-            This page is your gateway to JG University's facilities and atmosphere.
-          </p>
+    <main className="min-h-screen bg-[#f8f7f3] text-slate-900">
+      <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <Link
+          href="/"
+          className="mb-10 inline-flex items-center gap-2 text-sm font-extrabold text-rose-900"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Home
+        </Link>
+
+        <div className="mb-10 grid gap-8 lg:grid-cols-[1fr_0.75fr] lg:items-end">
+          <div>
+            <p className="institutional-label mb-3">Campus Experience</p>
+            <h1 className="max-w-3xl text-5xl font-black tracking-tight text-slate-950">
+              Campus tour.
+            </h1>
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              Explore learning spaces, labs, studios, event venues, and student
+              life areas that support academic and personal growth.
+            </p>
+          </div>
+          <div className="rounded-xl border border-slate-900/10 bg-white p-5">
+            <p className="mb-2 flex items-center gap-2 text-sm font-extrabold text-rose-900">
+              <MapPin className="h-4 w-4" />
+              Gujarat, India
+            </p>
+            <p className="text-slate-600">Campus visit slots are available through admissions.</p>
+          </div>
         </div>
 
-        <section className="grid gap-10 lg:grid-cols-2">
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 shadow-[0_20px_80px_rgba(0,0,0,0.25)] backdrop-blur-xl">
-            <h2 className="text-3xl font-bold text-white mb-5">Tour highlights</h2>
-            <ul className="space-y-4 text-slate-300">
-              <li>• State-of-the-art innovation labs and AI research centers.</li>
-              <li>• Immersive design studios and creative collaboration spaces.</li>
-              <li>• Advanced cybersecurity labs and incident response facilities.</li>
-              <li>• Residential campuses, dining halls, and outdoor recreation zones.</li>
-            </ul>
-          </div>
-
-          <div className="rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-[0_20px_80px_rgba(0,0,0,0.3)]">
-            <h2 className="text-3xl font-bold text-white mb-5">Watch the tour</h2>
-            <div className="aspect-[16/9] w-full overflow-hidden rounded-3xl bg-slate-900 border border-white/10">
-              <div className="flex h-full items-center justify-center text-slate-500">
-                <p className="text-center px-6">Virtual campus tour content is coming soon. In the meantime, learn more about our facilities and admissions process below.</p>
-              </div>
+        <div className="overflow-hidden rounded-xl border border-slate-900/10 bg-slate-950">
+          <div className="relative h-[420px]">
+            <img
+              src={campusImages[0].image}
+              alt="JG University campus"
+              className="h-full w-full object-cover opacity-80"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent" />
+            <div className="absolute bottom-8 left-8 right-8 text-white">
+              <button className="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-white text-slate-950">
+                <Play className="h-5 w-5" />
+              </button>
+              <h2 className="text-3xl font-black">Virtual tour coming soon</h2>
+              <p className="mt-2 max-w-2xl text-slate-200">
+                Until then, use the campus gallery and admissions desk to plan a
+                guided visit.
+              </p>
             </div>
           </div>
-        </section>
-
-        <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/" className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/15">
-            Back to Home
-          </Link>
-          <Link href="/apply" className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90">
-            Start Your Application
-          </Link>
         </div>
+
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
+          {campusImages.slice(1, 4).map((space) => (
+            <article key={space.id} className="overflow-hidden rounded-xl border border-slate-900/10 bg-white">
+              <img src={space.image} alt={space.title} className="h-44 w-full object-cover" />
+              <div className="p-5">
+                <h3 className="font-black text-slate-950">{space.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{space.detail}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <Link
+          href="/apply"
+          className="mt-10 inline-flex items-center gap-2 rounded-lg bg-rose-900 px-6 py-3.5 text-sm font-extrabold text-white"
+        >
+          Start Your Application
+          <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </main>
   );

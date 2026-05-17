@@ -1,126 +1,67 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  GraduationCap, Twitter, Linkedin, Instagram, Youtube,
-  MapPin, Phone, Mail, ArrowRight,
-} from "lucide-react";
-import { navLinks } from "@/data";
+import { Instagram, Linkedin, Mail, MapPin, Phone, Youtube } from "lucide-react";
+
+const logoUrl = "https://jguni.in/images/logo-animation.svg";
 
 const footerLinks = {
-  Programs: [
-    "Artificial Intelligence",
-    "Cybersecurity",
-    "Data Science",
-    "UI/UX Design",
-    "Aviation",
-    "Commerce",
-  ],
-  Campus: ["About Us", "Research Labs", "Sports Complex", "Hostels", "Library", "Events"],
-  Admissions: [
-    "How to Apply",
-    "Scholarships",
-    "Fee Structure",
-    "Entrance Exam",
-    "International Students",
-    "FAQs",
-  ],
+  Programs: ["AI & ML", "Cybersecurity", "Data Science", "Design", "Aviation"],
+  Admissions: ["Apply", "Scholarships", "Fees", "Brochure", "Campus Tour"],
+  Campus: ["Labs", "Library", "Hostel", "Sports", "Events"],
 };
 
 const socials = [
-  { icon: <Twitter className="w-4 h-4" />, label: "Twitter", href: "#" },
-  { icon: <Linkedin className="w-4 h-4" />, label: "LinkedIn", href: "#" },
-  { icon: <Instagram className="w-4 h-4" />, label: "Instagram", href: "#" },
-  { icon: <Youtube className="w-4 h-4" />, label: "YouTube", href: "#" },
+  { icon: <Linkedin className="h-4 w-4" />, label: "LinkedIn" },
+  { icon: <Instagram className="h-4 w-4" />, label: "Instagram" },
+  { icon: <Youtube className="h-4 w-4" />, label: "YouTube" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-white/[0.04]">
-      {/* Gradient top border */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
-
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-indigo-900/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 right-0 w-[300px] h-[200px] bg-violet-900/10 rounded-full blur-[80px]" />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top section */}
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
-          {/* Brand */}
-          <div className="lg:col-span-2">
-            <motion.div className="flex items-center gap-2.5 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.4)]">
-                <GraduationCap className="w-5 h-5 text-white" />
-              </div>
+    <footer className="border-t border-slate-900/10 bg-[#f8f7f3]">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
+          <div>
+            <div className="mb-5 flex items-center gap-3">
+              <img src={logoUrl} alt="JG University" className="h-14 w-11 object-contain" />
               <div>
-                <span className="text-white font-bold text-xl">
-                  JG<span className="gradient-text">Uni</span>
-                </span>
-                <p className="text-[10px] text-slate-400 leading-none uppercase tracking-widest">
-                  University
+                <p className="text-xl font-black text-slate-950">JG University</p>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-rose-900">
+                  Ahmedabad
                 </p>
               </div>
-            </motion.div>
-
-            <p className="text-slate-400 text-sm leading-relaxed max-w-xs mb-6">
-              A premier institution shaping the next generation of innovators,
-              leaders, and problem-solvers through world-class education and
-              research.
-            </p>
-
-            {/* Contact */}
-            <div className="space-y-3">
-              {[
-                { icon: <MapPin className="w-4 h-4 flex-shrink-0" />, text: "Rajkot, Gujarat 360001, India" },
-                { icon: <Phone className="w-4 h-4 flex-shrink-0" />, text: "+91 28123 45678" },
-                { icon: <Mail className="w-4 h-4 flex-shrink-0" />, text: "admissions@jguni.in" },
-              ].map(({ icon, text }) => (
-                <div key={text} className="flex items-start gap-3 text-slate-400 text-sm">
-                  <span className="text-indigo-400 mt-0.5">{icon}</span>
-                  <span>{text}</span>
-                </div>
-              ))}
             </div>
-
-            {/* Socials */}
-            <div className="flex gap-2.5 mt-6">
-              {socials.map((s) => (
-                <motion.a
-                  key={s.label}
-                  href={s.href}
-                  aria-label={s.label}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-9 h-9 rounded-xl glass-light border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-indigo-500/30 transition-colors"
-                >
-                  {s.icon}
-                </motion.a>
-              ))}
+            <p className="max-w-sm leading-7 text-slate-600">
+              A student-first university experience with practical programs,
+              academic mentoring, campus life, and career support.
+            </p>
+            <div className="mt-6 space-y-3 text-sm font-semibold text-slate-600">
+              <p className="flex items-center gap-3">
+                <MapPin className="h-4 w-4 text-rose-900" />
+                Gujarat, India
+              </p>
+              <p className="flex items-center gap-3">
+                <Phone className="h-4 w-4 text-rose-900" />
+                +91 28123 45678
+              </p>
+              <p className="flex items-center gap-3">
+                <Mail className="h-4 w-4 text-rose-900" />
+                admissions@jguni.in
+              </p>
             </div>
           </div>
 
-          {/* Links */}
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h4 className="text-white font-semibold text-sm mb-5 uppercase tracking-wider">
-                {category}
+          {Object.entries(footerLinks).map(([title, links]) => (
+            <div key={title}>
+              <h4 className="mb-4 text-sm font-black uppercase tracking-[0.16em] text-slate-950">
+                {title}
               </h4>
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link}>
-                    <motion.a
-                      href="#"
-                      className="text-slate-400 hover:text-white text-sm transition-colors flex items-center gap-0 hover:gap-1.5 group"
-                      whileHover={{ x: 3 }}
-                    >
-                      <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ArrowRight className="w-3 h-3" />
-                      </span>
+                    <a href="#" className="text-sm font-semibold text-slate-600 hover:text-rose-900">
                       {link}
-                    </motion.a>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -128,20 +69,19 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Bottom */}
-        <div className="py-6 border-t border-white/[0.05] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-slate-500 text-xs text-center sm:text-left">
+        <div className="mt-12 flex flex-col gap-5 border-t border-slate-900/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm font-semibold text-slate-500">
             © {new Date().getFullYear()} JG University. All rights reserved.
-            Built with ❤️ in India.
           </p>
-          <div className="flex items-center gap-6">
-            {["Privacy Policy", "Terms of Use", "Cookie Policy"].map((item) => (
+          <div className="flex gap-2">
+            {socials.map((social) => (
               <a
-                key={item}
+                key={social.label}
                 href="#"
-                className="text-slate-500 hover:text-slate-300 text-xs transition-colors"
+                aria-label={social.label}
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-900/10 bg-white text-slate-600 hover:text-rose-900"
               >
-                {item}
+                {social.icon}
               </a>
             ))}
           </div>

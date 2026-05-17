@@ -2,194 +2,180 @@
 
 import { motion } from "framer-motion";
 import {
-  Brain, Shield, Database, Palette, Plane, TrendingUp,
-  ArrowRight, Clock, GraduationCap, Loader
+  ArrowRight,
+  Brain,
+  Clock,
+  Database,
+  GraduationCap,
+  Palette,
+  Plane,
+  Shield,
+  TrendingUp,
 } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useNavigationLoading } from "@/hooks/useNavigationLoading";
 import { programs } from "@/data";
-import { StaggerContainer, StaggerItem, FadeUp } from "@/components/ui/AnimationWrapper";
+import { useNavigationLoading } from "@/hooks/useNavigationLoading";
+import { FadeUp, StaggerContainer, StaggerItem } from "@/components/ui/AnimationWrapper";
 
 const iconMap: Record<string, React.ReactNode> = {
-  Brain: <Brain className="w-6 h-6" />,
-  Shield: <Shield className="w-6 h-6" />,
-  Database: <Database className="w-6 h-6" />,
-  Palette: <Palette className="w-6 h-6" />,
-  Plane: <Plane className="w-6 h-6" />,
-  TrendingUp: <TrendingUp className="w-6 h-6" />,
+  Brain: <Brain className="h-5 w-5" />,
+  Shield: <Shield className="h-5 w-5" />,
+  Database: <Database className="h-5 w-5" />,
+  Palette: <Palette className="h-5 w-5" />,
+  Plane: <Plane className="h-5 w-5" />,
+  TrendingUp: <TrendingUp className="h-5 w-5" />,
 };
 
 export default function Programs() {
-  const router = useRouter();
-  const { navigate, isLoading } = useNavigationLoading();
-  const [loadingTarget, setLoadingTarget] = useState<string | null>(null);
+  const { navigate } = useNavigationLoading();
+  const [activeProgram, setActiveProgram] = useState(programs[0]);
 
-  const handleNavigate = (href: string) => {
-    setLoadingTarget(href);
-    navigate(href);
-  };
   return (
-    <section id="programs" className="section-padding relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-16">
+    <section id="programs" className="section-padding bg-[#f8f7f3]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 grid gap-6 sm:mb-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-8">
           <FadeUp>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold uppercase tracking-widest mb-5">
-              Explore Programs
-            </span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-5 leading-tight">
-              Programs Built for
-              <br />
-              <span className="gradient-text">Tomorrow's Leaders</span>
+            <p className="institutional-label mb-3">Academic Schools</p>
+            <h2 className="text-3xl font-black tracking-tight text-slate-950 sm:text-5xl">
+              Programs that look like a university, not a template.
             </h2>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
-              Choose from a curated set of future-forward programs designed in
-              partnership with industry leaders and global institutions.
+          </FadeUp>
+          <FadeUp delay={0.1}>
+            <p className="text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+              Each program card now shows the school, credential, duration,
+              skill tags, and career direction so students can actually compare
+              options at a glance.
             </p>
           </FadeUp>
         </div>
 
-        {/* Programs Grid */}
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {programs.map((program) => (
-            <StaggerItem key={program.id}>
-              <motion.div
-                whileHover={{ y: -8, scale: 1.01 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="relative group h-full"
-              >
-                {/* Glow on hover */}
-                <motion.div
-                  className="absolute -inset-0.5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"
-                  style={{
-                    background: `linear-gradient(135deg, ${program.accentColor}40, ${program.accentColor}20)`,
-                  }}
-                />
-
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => handleNavigate("/programs")}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") handleNavigate("/programs");
-                  }}
-                  className="relative h-full rounded-2xl p-6 flex flex-col overflow-hidden cursor-pointer"
-                  style={{
-                    background: "rgba(13,24,71,0.5)",
-                    backdropFilter: "blur(8px)",
-                    border: `1px solid rgba(255,255,255,0.06)`,
-                    transition: "border-color 0.3s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor =
-                      program.accentColor + "40";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor =
-                      "rgba(255,255,255,0.06)";
-                  }}
+        <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+          <StaggerContainer className="grid gap-3">
+            {programs.map((program) => (
+              <StaggerItem key={program.id}>
+                <button
+                  type="button"
+                  onClick={() => setActiveProgram(program)}
+                  className={`w-full rounded-xl border p-3 text-left transition sm:p-4 ${
+                    activeProgram.id === program.id
+                      ? "border-rose-900 bg-white shadow-[0_18px_45px_rgba(23,32,51,0.11)]"
+                      : "border-slate-900/10 bg-white/65 hover:bg-white"
+                  }`}
                 >
-                  {/* Background gradient */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${program.gradient} opacity-50 group-hover:opacity-80 transition-opacity duration-500`}
-                  />
-
-                  {/* Content */}
-                  <div className="relative z-10">
-                    {/* Icon + Level */}
-                    <div className="flex items-start justify-between mb-5">
-                      <div
-                        className="w-12 h-12 rounded-xl flex items-center justify-center"
-                        style={{
-                          background: `${program.accentColor}20`,
-                          border: `1px solid ${program.accentColor}30`,
-                          color: program.accentColor,
-                        }}
-                      >
-                        {iconMap[program.icon]}
-                      </div>
-                      <span
-                        className="text-xs font-semibold px-3 py-1 rounded-full"
-                        style={{
-                          background: `${program.accentColor}15`,
-                          color: program.accentColor,
-                          border: `1px solid ${program.accentColor}25`,
-                        }}
-                      >
-                        {program.level}
-                      </span>
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <div
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-white"
+                      style={{ backgroundColor: program.accentColor }}
+                    >
+                      {iconMap[program.icon]}
                     </div>
-
-                    {/* Title */}
-                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-white/90 transition-colors">
-                      {program.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-slate-400 text-sm leading-relaxed mb-5">
-                      {program.description}
-                    </p>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {program.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-[11px] px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-400"
-                        >
-                          {tag}
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-1 flex flex-wrap items-center gap-2">
+                        <h3 className="text-lg font-black text-slate-950">
+                          {program.title}
+                        </h3>
+                        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">
+                          {program.level}
                         </span>
-                      ))}
-                    </div>
-
-                    {/* Footer */}
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/[0.05]">
-                      <div className="flex items-center gap-1.5 text-slate-400 text-xs">
-                        <Clock className="w-3.5 h-3.5" />
-                        <span>{program.duration}</span>
                       </div>
-                      <motion.div
-                        className="flex items-center gap-1.5 text-xs font-semibold"
-                        style={{ color: program.accentColor }}
-                        whileHover={{ x: 3 }}
-                      >
-                        Explore <ArrowRight className="w-3.5 h-3.5" />
-                      </motion.div>
+                      <p className="text-sm font-semibold text-slate-500">
+                        {program.school}
+                      </p>
                     </div>
+                    <ArrowRight className="mt-2 hidden h-4 w-4 text-slate-400 xs:block" />
                   </div>
-                </div>
-              </motion.div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+                </button>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
 
-        {/* Bottom CTA */}
-        <FadeUp delay={0.3}>
-          <div className="text-center mt-14">
-            <motion.button
-              type="button"
-              onClick={() => handleNavigate("/programs")}
-              disabled={isLoading}
-              whileHover={{ scale: 1.03, boxShadow: "0 0 30px rgba(99,102,241,0.3)" }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass-light border border-white/10 text-white font-medium hover:bg-white/5 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {loadingTarget === "/programs" && isLoading ? (
-                <>
-                  <Loader className="w-4 h-4 animate-spin" />
-                  Loading Programs...
-                </>
-              ) : (
-                <>
-                  <GraduationCap className="w-4 h-4" />
-                  View All 45+ Programs
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </motion.button>
-          </div>
-        </FadeUp>
+          <motion.article
+            key={activeProgram.id}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+            className="surface overflow-hidden rounded-xl"
+          >
+            <div
+              className="h-2"
+              style={{ backgroundColor: activeProgram.accentColor }}
+            />
+            <div className="p-6 sm:p-8">
+              <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="mb-2 text-sm font-extrabold uppercase tracking-[0.16em] text-rose-900">
+                    {activeProgram.school}
+                  </p>
+                  <h3 className="text-2xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                    {activeProgram.title}
+                  </h3>
+                </div>
+                <div className="rounded-xl border border-slate-900/10 bg-[#fbfaf7] p-4">
+                  <div className="mb-1 flex items-center gap-2 text-sm font-bold text-slate-500">
+                    <Clock className="h-4 w-4" />
+                    Duration
+                  </div>
+                  <p className="text-xl font-black text-slate-950">
+                    {activeProgram.duration}
+                  </p>
+                </div>
+              </div>
+
+              <p className="mb-7 text-lg leading-8 text-slate-600">
+                {activeProgram.description}
+              </p>
+
+              <div className="mb-7 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-xl border border-slate-900/10 bg-white p-5">
+                  <p className="mb-2 text-xs font-black uppercase tracking-[0.16em] text-slate-500">
+                    Career Direction
+                  </p>
+                  <p className="font-bold leading-7 text-slate-900">
+                    {activeProgram.outcome}
+                  </p>
+                </div>
+                <div className="rounded-xl border border-slate-900/10 bg-white p-5">
+                  <p className="mb-2 text-xs font-black uppercase tracking-[0.16em] text-slate-500">
+                    Credential
+                  </p>
+                  <p className="font-bold leading-7 text-slate-900">
+                    {activeProgram.level} degree program
+                  </p>
+                </div>
+              </div>
+
+              <div className="mb-8 flex flex-wrap gap-2">
+                {activeProgram.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-slate-900/10 bg-[#f8f7f3] px-3 py-1.5 text-sm font-bold text-slate-700"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={() => navigate("/programs")}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800"
+                >
+                  Program Details
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate("/apply")}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-900/10 bg-white px-5 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-slate-50"
+                >
+                  <GraduationCap className="h-4 w-4" />
+                  Apply for this Program
+                </button>
+              </div>
+            </div>
+          </motion.article>
+        </div>
       </div>
     </section>
   );

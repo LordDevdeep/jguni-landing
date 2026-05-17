@@ -1,120 +1,108 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, Building2, MapPin, Trees, Users } from "lucide-react";
 import { campusImages } from "@/data";
 import { FadeUp } from "@/components/ui/AnimationWrapper";
 
+const campusFacts = [
+  { value: "50+", label: "Acres of learning spaces", icon: <Trees className="h-5 w-5" /> },
+  { value: "200+", label: "Classrooms, studios, and labs", icon: <Building2 className="h-5 w-5" /> },
+  { value: "60+", label: "Student clubs and activities", icon: <Users className="h-5 w-5" /> },
+];
+
 export default function CampusExperience() {
   return (
-    <section id="campus" className="section-padding relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-12">
+    <section id="campus" className="section-padding bg-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12 grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
           <FadeUp>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-semibold uppercase tracking-widest mb-5">
-              Campus Life
-            </span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-              Experience a
-              <br />
-              <span className="gradient-text">World-Class Campus</span>
+            <p className="institutional-label mb-3">Campus Life</p>
+            <h2 className="text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">
+              A campus section with real places, not emoji placeholders.
             </h2>
           </FadeUp>
-          <FadeUp delay={0.2}>
-            <div className="flex items-center gap-2 text-slate-400">
-              <MapPin className="w-4 h-4 text-indigo-400" />
-              <span className="text-sm">Rajkot, Gujarat, India</span>
+          <FadeUp delay={0.1}>
+            <div className="rounded-xl border border-slate-900/10 bg-[#f8f7f3] p-5">
+              <div className="mb-2 flex items-center gap-2 text-sm font-extrabold text-rose-900">
+                <MapPin className="h-4 w-4" />
+                Gujarat, India
+              </div>
+              <p className="text-slate-600">
+                Labs, studios, clubs, events, mentoring spaces, and student
+                support are treated as part of the academic experience.
+              </p>
             </div>
           </FadeUp>
         </div>
 
-        {/* Horizontal scroll gallery */}
-        <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-[#020617] to-transparent pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-[#020617] to-transparent pointer-events-none" />
-
-          <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar snap-x snap-mandatory">
-            {campusImages.map((img, i) => (
-              <motion.div
-                key={img.id}
-                initial={{ opacity: 0, x: 40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                whileHover={{ scale: 1.02 }}
-                className="relative flex-shrink-0 w-72 sm:w-80 h-72 rounded-3xl overflow-hidden cursor-pointer group snap-center"
-              >
-                {/* Gradient background (placeholder for images) */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${img.bg}`}
+        <div className="grid gap-5 lg:grid-cols-3">
+          {campusImages.slice(0, 3).map((item, i) => (
+            <motion.article
+              key={item.id}
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="group overflow-hidden rounded-xl border border-slate-900/10 bg-white shadow-sm"
+            >
+              <div className="relative h-72 overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
-
-                {/* Pattern overlay */}
-                <div
-                  className="absolute inset-0 opacity-10"
-                  style={{
-                    backgroundImage: `radial-gradient(circle at 30% 40%, rgba(255,255,255,0.3) 0%, transparent 50%)`,
-                  }}
-                />
-
-                {/* Emoji icon */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-7xl opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-500">
-                  {img.emoji}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent" />
+                <div className="absolute bottom-5 left-5 right-5">
+                  <p className="mb-1 text-sm font-bold text-white/75">
+                    {item.subtitle}
+                  </p>
+                  <h3 className="text-2xl font-black text-white">{item.title}</h3>
                 </div>
-
-                {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-300" />
-
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <motion.div
-                    initial={{ y: 10, opacity: 0.7 }}
-                    whileHover={{ y: 0, opacity: 1 }}
-                    className="transition-all duration-300"
-                  >
-                    <h3 className="text-white font-bold text-xl mb-1">
-                      {img.title}
-                    </h3>
-                    <p className="text-white/60 text-sm mb-3">{img.subtitle}</p>
-                    <motion.div
-                      className="flex items-center gap-1.5 text-white/70 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      whileHover={{ x: 3 }}
-                    >
-                      Explore <ArrowRight className="w-3.5 h-3.5" />
-                    </motion.div>
-                  </motion.div>
-                </div>
-
-                {/* Number badge */}
-                <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white/60 text-xs font-bold">
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+              <div className="p-5">
+                <p className="mb-4 leading-7 text-slate-600">{item.detail}</p>
+                <button className="inline-flex items-center gap-2 text-sm font-extrabold text-rose-900">
+                  Explore space
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            </motion.article>
+          ))}
         </div>
 
-        {/* Stats row */}
-        <FadeUp delay={0.2}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
-            {[
-              { value: "50+", label: "Acres Campus", icon: "🏛️" },
-              { value: "200+", label: "Classrooms & Labs", icon: "🔬" },
-              { value: "5000+", label: "Library Books", icon: "📚" },
-              { value: "24/7", label: "Hostel Facilities", icon: "🏠" },
-            ].map((stat) => (
+        <div className="mt-5 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="grid gap-5 sm:grid-cols-3">
+            {campusFacts.map((fact) => (
               <div
-                key={stat.label}
-                className="text-center p-5 rounded-2xl glass-light border border-white/5"
+                key={fact.label}
+                className="rounded-xl border border-slate-900/10 bg-[#f8f7f3] p-5"
               >
-                <div className="text-3xl mb-2">{stat.icon}</div>
-                <p className="text-2xl font-bold text-white mb-1">{stat.value}</p>
-                <p className="text-xs text-slate-500">{stat.label}</p>
+                <div className="mb-4 flex text-rose-900">{fact.icon}</div>
+                <p className="text-3xl font-black text-slate-950">{fact.value}</p>
+                <p className="mt-1 text-sm font-semibold leading-6 text-slate-600">
+                  {fact.label}
+                </p>
               </div>
             ))}
           </div>
-        </FadeUp>
+
+          <div className="grid grid-cols-3 overflow-hidden rounded-xl border border-slate-900/10">
+            {campusImages.slice(3).map((item) => (
+              <div key={item.id} className="relative min-h-44">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-slate-950/35" />
+                <p className="absolute bottom-3 left-3 right-3 text-sm font-black text-white">
+                  {item.title}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

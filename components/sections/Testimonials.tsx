@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 import { testimonials } from "@/data";
 import { FadeUp } from "@/components/ui/AnimationWrapper";
 
@@ -19,166 +19,92 @@ export default function Testimonials() {
   useEffect(() => {
     timerRef.current = setInterval(() => {
       setDirection(1);
-      setCurrent((c) => (c + 1) % testimonials.length);
-    }, 5000);
+      setCurrent((value) => (value + 1) % testimonials.length);
+    }, 5200);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, []);
 
-  const variants = {
-    enter: (dir: number) => ({ x: dir > 0 ? 100 : -100, opacity: 0, scale: 0.95 }),
-    center: { x: 0, opacity: 1, scale: 1 },
-    exit: (dir: number) => ({ x: dir > 0 ? -100 : 100, opacity: 0, scale: 0.95 }),
-  };
-
   const t = testimonials[current];
 
   return (
-    <section id="testimonials" className="section-padding relative">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-600/5 rounded-full blur-[100px]" />
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-16">
+    <section id="testimonials" className="section-padding bg-[#f8f7f3]">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 text-center">
           <FadeUp>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-semibold uppercase tracking-widest mb-5">
-              Student Stories
-            </span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-5">
-              Hear From Our
-              <br />
-              <span className="gradient-text">Alumni</span>
+            <p className="institutional-label mb-3">Student Stories</p>
+            <h2 className="text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">
+              Alumni voices, kept credible.
             </h2>
           </FadeUp>
         </div>
 
-        {/* Main testimonial */}
-        <div className="relative overflow-hidden">
+        <div className="surface overflow-hidden rounded-xl">
           <AnimatePresence custom={direction} mode="wait">
             <motion.div
               key={current}
               custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="relative rounded-3xl p-8 sm:p-12"
-              style={{
-                background: "rgba(13,24,71,0.6)",
-                backdropFilter: "blur(8px)",
-                border: `1px solid ${t.accentColor}25`,
-                boxShadow: `0 0 40px ${t.accentColor}05`,
-              }}
+              initial={{ opacity: 0, x: direction > 0 ? 40 : -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: direction > 0 ? -40 : 40 }}
+              transition={{ duration: 0.35 }}
+              className="grid gap-8 p-7 sm:p-10 lg:grid-cols-[0.75fr_1.25fr]"
             >
-              {/* Quote icon */}
-              <div
-                className="absolute top-8 right-8 w-12 h-12 rounded-2xl flex items-center justify-center opacity-20"
-                style={{ background: t.accentColor }}
-              >
-                <Quote className="w-6 h-6 text-white" />
-              </div>
-
-              {/* Stars */}
-              <div className="flex gap-1 mb-6">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <Star key={s} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                ))}
-              </div>
-
-              {/* Content */}
-              <p className="text-slate-200 text-xl sm:text-2xl leading-relaxed mb-10 font-light">
-                &ldquo;{t.content}&rdquo;
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-4">
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
-                  style={{ background: `linear-gradient(135deg, ${t.accentColor}, ${t.accentColor}80)` }}
-                >
-                  {t.avatar}
+              <div className="rounded-xl bg-[#172033] p-7 text-white">
+                <Quote className="mb-8 h-10 w-10 text-amber-300" />
+                <div className="mb-5 flex gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star key={star} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                  ))}
                 </div>
-                <div>
-                  <p className="text-white font-bold text-lg">{t.name}</p>
-                  <p className="text-slate-400 text-sm">{t.role}</p>
-                  <p className="text-xs mt-0.5" style={{ color: t.accentColor }}>
-                    {t.program} • {t.batch}
-                  </p>
+                <p className="text-2xl font-black">{t.name}</p>
+                <p className="mt-2 font-semibold text-slate-300">{t.role}</p>
+                <p className="mt-1 text-sm font-bold text-amber-300">
+                  {t.program} / {t.batch}
+                </p>
+              </div>
+
+              <div className="flex flex-col justify-between">
+                <p className="text-2xl leading-10 text-slate-800">
+                  &ldquo;{t.content}&rdquo;
+                </p>
+                <div className="mt-8 flex items-center justify-between">
+                  <div className="flex gap-2">
+                    {testimonials.map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => goTo(i, i > current ? 1 : -1)}
+                        className={`h-2 rounded-full transition-all ${
+                          i === current ? "w-9 bg-rose-900" : "w-2 bg-slate-300"
+                        }`}
+                        aria-label={`Show testimonial ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => goTo(current - 1, -1)}
+                      className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-900/10 bg-white"
+                      aria-label="Previous testimonial"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => goTo(current + 1, 1)}
+                      className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-900/10 bg-white"
+                      aria-label="Next testimonial"
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
-        </div>
-
-        {/* Controls */}
-        <div className="flex items-center justify-between mt-8">
-          {/* Dots */}
-          <div className="flex gap-2">
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goTo(i, i > current ? 1 : -1)}
-                className="relative h-1.5 rounded-full overflow-hidden transition-all duration-300"
-                style={{ width: i === current ? "32px" : "8px", background: "rgba(255,255,255,0.15)" }}
-              >
-                {i === current && (
-                  <motion.div
-                    layoutId="activeDot"
-                    className="absolute inset-0 rounded-full"
-                    style={{ background: t.accentColor }}
-                  />
-                )}
-              </button>
-            ))}
-          </div>
-
-          {/* Navigation arrows */}
-          <div className="flex gap-3">
-            <motion.button
-              onClick={() => goTo(current - 1, -1)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-11 h-11 rounded-xl glass-light border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </motion.button>
-            <motion.button
-              onClick={() => goTo(current + 1, 1)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-11 h-11 rounded-xl glass-light border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </motion.button>
-          </div>
-        </div>
-
-        {/* Thumbnail row */}
-        <div className="flex justify-center gap-3 mt-8">
-          {testimonials.map((test, i) => (
-            <motion.button
-              key={test.id}
-              onClick={() => goTo(i, i > current ? 1 : -1)}
-              whileHover={{ scale: 1.1 }}
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold text-white transition-all"
-              style={{
-                background: i === current
-                  ? `linear-gradient(135deg, ${test.accentColor}, ${test.accentColor}80)`
-                  : "rgba(255,255,255,0.06)",
-                border: i === current
-                  ? `1px solid ${test.accentColor}50`
-                  : "1px solid rgba(255,255,255,0.08)",
-                opacity: i === current ? 1 : 0.5,
-              }}
-            >
-              {test.avatar}
-            </motion.button>
-          ))}
         </div>
       </div>
     </section>

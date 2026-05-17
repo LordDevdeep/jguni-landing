@@ -1,204 +1,162 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, GraduationCap, Zap, Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Loader, Menu, X } from "lucide-react";
 import { navLinks } from "@/data";
-import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { useNavigationLoading } from "@/hooks/useNavigationLoading";
+import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { cn } from "@/lib/utils";
 
+const logoUrl = "https://jguni.in/images/logo-animation.svg";
+
 export default function Navbar() {
-  const router = useRouter();
   const { navigate, isLoading } = useNavigationLoading();
   const [loadingTarget, setLoadingTarget] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const activeSection = useScrollSpy(
-    ["home", "programs", "campus", "testimonials", "contact"],
-    80
+    ["home", "about", "programs", "campus", "testimonials", "contact"],
+    88
   );
 
   const handleNavigate = (href: string) => {
     setLoadingTarget(href);
     navigate(href);
+    setMobileOpen(false);
   };
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const handleNavClick = (href: string) => {
     const id = href.replace("#", "");
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMobileOpen(false);
   };
 
   return (
     <>
       <motion.nav
-        initial={{ y: -100, opacity: 0 }}
+        initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled
-            ? "py-3"
-            : "py-5"
-        )}
+        transition={{ duration: 0.45 }}
+        className="fixed left-0 right-0 top-0 z-50 px-3 pt-3 sm:px-5"
       >
         <div
           className={cn(
-            "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
-            scrolled &&
-              "relative"
+            "mx-auto flex max-w-7xl items-center justify-between rounded-xl border px-4 py-3 transition-all duration-300",
+            scrolled
+              ? "border-slate-900/10 bg-white/92 shadow-[0_16px_45px_rgba(23,32,51,0.12)] backdrop-blur-xl"
+              : "border-transparent bg-white/72 backdrop-blur-md"
           )}
         >
-          <div
-            className={cn(
-              "flex items-center justify-between rounded-2xl px-5 py-3 transition-all duration-300",
-              scrolled
-                ? "bg-[rgba(2,6,23,0.85)] backdrop-blur-sm border border-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.05)]"
-                : "bg-transparent"
-            )}
+          <button
+            type="button"
+            onClick={() => handleNavClick("#home")}
+            className="flex items-center gap-3 text-left"
+            aria-label="Go to home"
           >
-            {/* Logo */}
-            <motion.div
-              className="flex items-center gap-2.5 cursor-pointer group"
-              onClick={() => handleNavClick("#home")}
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="relative">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.4)]">
-                  <GraduationCap className="w-5 h-5 text-white" />
-                </div>
-              </div>
-              <div>
-                <span className="text-white font-bold text-lg tracking-tight">
-                  JG<span className="gradient-text">Uni</span>
-                </span>
-                <p className="text-[10px] text-slate-400 leading-none -mt-0.5 tracking-widest uppercase">
-                  University
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => {
-                const sectionId = link.href.replace("#", "");
-                const isActive = activeSection === sectionId;
-                return (
-                  <motion.button
-                    key={link.label}
-                    onClick={() => handleNavClick(link.href)}
-                    className={cn(
-                      "relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300",
-                      isActive
-                        ? "text-white"
-                        : "text-slate-400 hover:text-white"
-                    )}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.97 }}
-                  >
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeNav"
-                        className="absolute inset-0 bg-white/[0.06] rounded-xl border border-indigo-500/20"
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                      />
-                    )}
-                    <span className="relative z-10">{link.label}</span>
-                  </motion.button>
-                );
-              })}
+            <img
+              src={logoUrl}
+              alt="JG University"
+              className="h-12 w-10 object-contain"
+            />
+            <div className="leading-tight">
+              <p className="text-base font-extrabold tracking-tight text-slate-950">
+                JG University
+              </p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-rose-800">
+                Ahmedabad
+              </p>
             </div>
+          </button>
 
-            {/* CTA */}
-            <div className="hidden md:flex items-center gap-3">
-              <motion.button
-                type="button"
-                onClick={() => handleNavigate("/apply")}
-                disabled={isLoading}
-                className="relative overflow-hidden flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-sm font-semibold shadow-[0_0_20px_rgba(99,102,241,0.35)] disabled:opacity-70 disabled:cursor-not-allowed transition-opacity"
-                whileHover={{ scale: 1.03, boxShadow: "0 0 30px rgba(99,102,241,0.5)" }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 opacity-0"
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-                {loadingTarget === "/apply" && isLoading ? (
-                  <Loader className="w-3.5 h-3.5 relative z-10 animate-spin" />
-                ) : (
-                  <Zap className="w-3.5 h-3.5 relative z-10" />
-                )}
-                <span className="relative z-10">Apply Now</span>
-              </motion.button>
-            </div>
-
-            {/* Mobile hamburger */}
-            <motion.button
-              className="md:hidden p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              whileTap={{ scale: 0.9 }}
-            >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </motion.button>
+          <div className="hidden items-center gap-1 md:flex">
+            {navLinks.map((link) => {
+              const sectionId = link.href.replace("#", "");
+              const isActive = activeSection === sectionId;
+              return (
+                <button
+                  key={link.label}
+                  type="button"
+                  onClick={() => handleNavClick(link.href)}
+                  className={cn(
+                    "rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors",
+                    isActive
+                      ? "bg-rose-900 text-white"
+                      : "text-slate-600 hover:bg-slate-900/5 hover:text-slate-950"
+                  )}
+                >
+                  {link.label}
+                </button>
+              );
+            })}
           </div>
+
+          <div className="hidden items-center gap-3 md:flex">
+            <button
+              type="button"
+              onClick={() => handleNavigate("/brochure")}
+              className="rounded-lg border border-slate-900/10 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-900/5"
+            >
+              Brochure
+            </button>
+            <button
+              type="button"
+              onClick={() => handleNavigate("/apply")}
+              disabled={isLoading}
+              className="inline-flex items-center gap-2 rounded-lg bg-rose-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-rose-800 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {loadingTarget === "/apply" && isLoading && (
+                <Loader className="h-4 w-4 animate-spin" />
+              )}
+              Apply Now
+            </button>
+          </div>
+
+          <button
+            type="button"
+            className="rounded-lg border border-slate-900/10 p-2 text-slate-800 md:hidden"
+            onClick={() => setMobileOpen((open) => !open)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.98 }}
-            transition={{ duration: 0.25 }}
-            className="fixed top-[80px] left-4 right-4 z-40 rounded-2xl bg-[rgba(2,6,23,0.97)] backdrop-blur-2xl border border-indigo-500/20 shadow-2xl p-4"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="fixed left-4 right-4 top-[88px] z-40 rounded-xl border border-slate-900/10 bg-white p-3 shadow-2xl md:hidden"
           >
             <div className="flex flex-col gap-1">
-              {navLinks.map((link, i) => (
-                <motion.button
+              {navLinks.map((link) => (
+                <button
                   key={link.label}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
+                  type="button"
                   onClick={() => handleNavClick(link.href)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all text-left text-sm font-medium"
+                  className="rounded-lg px-4 py-3 text-left text-sm font-bold text-slate-700 hover:bg-slate-100"
                 >
                   {link.label}
-                </motion.button>
+                </button>
               ))}
-              <div className="mt-2 pt-2 border-t border-white/5">
-                <motion.button
-                  type="button"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.35 }}
-                  onClick={() => handleNavigate("/apply")}
-                  disabled={isLoading}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold text-sm shadow-lg disabled:opacity-70 disabled:cursor-not-allowed transition-opacity flex items-center justify-center gap-2"
-                >
-                  {loadingTarget === "/apply" && isLoading ? (
-                    <>
-                      <Loader className="w-4 h-4 animate-spin" />
-                      Loading...
-                    </>
-                  ) : (
-                    <>Apply Now ⚡</>
-                  )}
-                </motion.button>
-              </div>
+              <button
+                type="button"
+                onClick={() => handleNavigate("/apply")}
+                disabled={isLoading}
+                className="mt-2 rounded-lg bg-rose-900 px-4 py-3 text-sm font-bold text-white disabled:opacity-70"
+              >
+                Apply Now
+              </button>
             </div>
           </motion.div>
         )}
