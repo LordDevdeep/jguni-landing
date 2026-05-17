@@ -89,7 +89,7 @@ export default function Navbar() {
                     "rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors",
                     isActive
                       ? "bg-rose-900 text-white"
-                      : "text-slate-600 hover:bg-slate-900/5 hover:text-slate-950"
+                      : "text-[rgb(11,24,7)] hover:bg-slate-900/5 hover:text-slate-950"
                   )}
                 >
                   {link.label}
@@ -144,7 +144,7 @@ export default function Navbar() {
                   key={link.label}
                   type="button"
                   onClick={() => handleNavClick(link.href)}
-                  className="rounded-lg px-4 py-3 text-left text-sm font-bold text-slate-700 hover:bg-slate-100"
+                  className="rounded-lg px-4 py-3 text-left text-sm font-bold text-[rgb(11,24,7)] hover:bg-slate-100"
                 >
                   {link.label}
                 </button>

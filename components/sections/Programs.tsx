@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import {
-  ArrowRight,
   Brain,
   Clock,
   Database,
@@ -82,7 +81,6 @@ export default function Programs() {
                         {program.school}
                       </p>
                     </div>
-                    <ArrowRight className="mt-2 hidden h-4 w-4 text-slate-400 xs:block" />
                   </div>
                 </button>
               </StaggerItem>
@@ -158,16 +156,8 @@ export default function Programs() {
               <div className="flex flex-col gap-3 sm:flex-row">
                 <button
                   type="button"
-                  onClick={() => navigate("/programs")}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800"
-                >
-                  Program Details
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
                   onClick={() => navigate("/apply")}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-900/10 bg-white px-5 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-slate-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-rose-900 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-rose-800"
                 >
                   <GraduationCap className="h-4 w-4" />
                   Apply for this Program
